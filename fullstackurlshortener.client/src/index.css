@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root, .App{
+    width: 100dvh;
+    height: 100dvh;
+    box-sizing: border-box;
+    margin:0;
+    padding: 0;
+}

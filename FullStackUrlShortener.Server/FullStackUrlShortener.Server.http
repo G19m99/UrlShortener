@@ -1,0 +1,20 @@
+@FullStackUrlShortener.Server_HostAddress = http://localhost:5115
+
+GET {{FullStackUrlShortener.Server_HostAddress}}/api/url-shorten/8ffdefbd/
+Accept: application/json
+
+###
+
+GET {{FullStackUrlShortener.Server_HostAddress}}/8ffdefbd
+Accept: application/json
+
+###
+
+POST {{FullStackUrlShortener.Server_HostAddress}}/api/url-shorten
+Content-Type: application/json
+
+{
+  "url": "https://www.linkedin.com"
+}
+
+###
