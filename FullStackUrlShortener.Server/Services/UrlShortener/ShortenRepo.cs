@@ -1,7 +1,5 @@
 ﻿using FullStackUrlShortener.Server.Models;
 using FullStackUrlShortener.Server.Services.Redis;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
 using System.Security.Cryptography;
 
 namespace FullStackUrlShortener.Server.Services.UrlShortener;
