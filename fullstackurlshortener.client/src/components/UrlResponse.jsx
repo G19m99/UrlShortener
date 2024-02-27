@@ -1,5 +1,4 @@
-import React from "react";
-
+import PropTypes from "prop-types";
 
 const UrlResponse = ({ shortUrl }) => {
     if (!shortUrl) return;
@@ -12,6 +11,10 @@ const UrlResponse = ({ shortUrl }) => {
             <p className="italic cursor-pointer" onClick={handleClick}>{shortUrl}</p>
         </div>
     )
+}
+
+UrlResponse.propTypes = {
+    shortUrl: PropTypes.string.isRequired
 }
 
 export default UrlResponse;

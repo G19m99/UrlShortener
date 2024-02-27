@@ -1,6 +1,7 @@
 import React from "react";
 import lockIcon from "@/assets/lockIcon.svg";
 import UrlResponse from "./UrlResponse";
+import PropTypes from "prop-types";
 
 const Card = ({ req, shortUrl }) => {
     const [urlInput, setUrlInput] = React.useState("");
@@ -34,6 +35,11 @@ const Card = ({ req, shortUrl }) => {
             </div>
         </div>
     );
+}
+
+Card.propTypes = {
+    req: PropTypes.func.isRequired,
+    shortUrl: PropTypes.string.isRequired
 }
 
 export default Card;
