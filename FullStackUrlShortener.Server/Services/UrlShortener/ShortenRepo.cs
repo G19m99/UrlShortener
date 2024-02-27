@@ -4,14 +4,11 @@ using System.Security.Cryptography;
 
 namespace FullStackUrlShortener.Server.Services.UrlShortener;
 
-public class ShortenRepo : IShortenRepository
+public class ShortenRepo(IRedisService redis) : IShortenRepository
 {
     const string baseUrl = "https://localhost:7164/";
-    private readonly IRedisService _redis;
-    public ShortenRepo(IRedisService redis)
-    {
-        _redis = redis;
-    }
+    private readonly IRedisService _redis = redis;
+
     public async Task<urlShortenResponse> Create(string url)
     {
         try
@@ -32,7 +29,7 @@ public class ShortenRepo : IShortenRepository
             };
             return res;
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             throw new Exception($"Request Failed {ex.Message}");
         }
@@ -51,7 +48,7 @@ public class ShortenRepo : IShortenRepository
 
     public Task<urlShortenResponse> Get(string key)
     {
-        try 
+        try
         {
             var longUrl = _redis.JsonGet<string>(key) ?? throw new KeyNotFoundException();
             var obj = new urlShortenResponse
@@ -60,7 +57,7 @@ public class ShortenRepo : IShortenRepository
                 LongUrl = longUrl,
                 ShortUrl = baseUrl + key
             };
-            
+
             return Task.FromResult<urlShortenResponse>(obj);
         }
         catch (Exception ex)
