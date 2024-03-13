@@ -1,6 +1,6 @@
 # URL Shortener project
 
-A simple and easy to use URL shortening service
+A simple and easy to use URL shortening API and UI
 
 ## Features
 
@@ -11,9 +11,9 @@ A simple and easy to use URL shortening service
 
 ## Tech Stack
 
-**Client:** React, TailwindCSS
+**Client:** React, Typescript, TailwindCSS
 
-**Server:** Asp.Net 8, C#, Redis, Docker
+**Server:** Asp.Net 8 Api, C#, Redis, Docker
 
 ## Optimizations
 
@@ -21,8 +21,9 @@ Utilized Redis as the primary database for optimal performance
 
 ## Run Locally
 
-You will need to spin up a docker redis instance (update the connection string for redis in the appsettings.json file)
+You will need to spin up a Redis instance. The easiest way to do that is with a Docker Redis instance. If you're using a different port, make sure to update the connection string for Redis in the `appsettings.json` file.
 
 ```bash
-  docker run -d -p 5002:6379 --name my-redis-container redis
+docker run -d -p 5002:6379 --name my-redis-container redis
+
 ```
