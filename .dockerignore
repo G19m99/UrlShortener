@@ -1,0 +1,10 @@
+# Ignore node_modules directory
+frontend/node_modules
+
+# Ignore other potential unnecessary files
+*.log
+*.tmp
+frontend/dist/
+
+# Ignore the .git directory
+.git

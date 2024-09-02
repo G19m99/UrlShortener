@@ -12,15 +12,16 @@ FROM build_backend AS publish
 WORKDIR "/src/UrlShortener.Api"
 RUN dotnet publish "UrlShortener.Api.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
-FROM node:18-alpine as build_frontend
+FROM node:18-alpine AS build_frontend
+WORKDIR /frontend
 COPY frontend/package.json .
 COPY frontend/package-lock.json .
 RUN npm install
 COPY frontend/. .
 RUN npm run build
 
-
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+COPY --from=build_frontend /frontend/dist ./wwwroot
 ENTRYPOINT ["dotnet", "UrlShortener.Api.dll"]

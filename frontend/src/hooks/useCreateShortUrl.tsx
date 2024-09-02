@@ -9,7 +9,8 @@ const useCreateShortUrl = () => {
       longUrl: inputData,
     };
     setLoading(true);
-    const res = await fetch("http://localhost:5145/api/shorturls", {
+    //const res = await fetch("http://localhost:5145/api/shorturls", {
+    const res = await fetch("api/shorturls", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

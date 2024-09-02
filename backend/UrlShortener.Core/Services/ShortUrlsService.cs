@@ -1,15 +1,14 @@
 using System.Data.Common;
 using System.Security.Cryptography;
+using Microsoft.Extensions.Options;
 using UrlShortener.Core.Interfaces;
 using UrlShortener.Core.Models;
 using UrlShortener.Data.Interfaces;
 
 namespace UrlShortener.Core.Services;
 
-public class ShortUrlsService(IShortUrlsRepository shortUrlsRepository) : IShortUrlsService
+public class ShortUrlsService(IShortUrlsRepository shortUrlsRepository, IOptions<ShortUrlOptions> options) : IShortUrlsService
 {
-    //TODO: base url should be set based on the running port
-    private const string baseUrl = "http://localhost:5145/";
     private readonly IShortUrlsRepository _urlRepository = shortUrlsRepository;
 
     public ShortUrlsModel? CreateShortUrl(string longUrl)
@@ -30,7 +29,7 @@ public class ShortUrlsService(IShortUrlsRepository shortUrlsRepository) : IShort
         {
             Key = hashedKey,
             LongUrl = longUrl,
-            ShortUrl = baseUrl + hashedKey
+            ShortUrl = options.Value.BaseUrl + hashedKey
         };
 
         return result;
@@ -51,7 +50,7 @@ public class ShortUrlsService(IShortUrlsRepository shortUrlsRepository) : IShort
         {
             Key = key,
             LongUrl = url,
-            ShortUrl = baseUrl + key
+            ShortUrl = options.Value.BaseUrl + key
         };
 
         return result;

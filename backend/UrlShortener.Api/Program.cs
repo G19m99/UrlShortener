@@ -1,3 +1,4 @@
+using UrlShortener.Api;
 using UrlShortener.Api.Models;
 using UrlShortener.Core.Interfaces;
 using UrlShortener.Core.Models;
@@ -25,6 +26,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IShortUrlsService, ShortUrlsService>();
 builder.Services.AddScoped<IShortUrlsRepository, ShortUrlsRepository>();
+builder.Services.Configure<ShortUrlOptions>(builder.Configuration);
+
 
 string redisConnectionString = builder.Configuration.GetConnectionString("Redis")!;
 builder.Services.AddSingleton(new RedisService(redisConnectionString));
@@ -48,6 +51,7 @@ if(builder.Configuration.GetValue<bool>("EnableSwagger"))
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
 
 app.MapGet("/api/shorturls/{key}", (string key, IShortUrlsService shortUrlsService) =>
 {
@@ -63,24 +67,13 @@ app.MapGet("/api/shorturls/{key}", (string key, IShortUrlsService shortUrlsServi
             detail: $"key {key} not found"
         );
     }
-    catch (Exception)
-    {
-        throw new Exception("Some error occured while attempting to retrieve records");
-    }
 });
 
 app.MapPost("/api/shorturls", (CreateShortUrlModel urlReq, IShortUrlsService shortUrlsService) =>
 {
-    try
-    {
-        string cleanUrl = urlReq.LongUrl.ToLower().Trim();
-        ShortUrlsModel created = shortUrlsService.CreateShortUrl(cleanUrl) ?? throw new Exception("Failed to create short url");
-        return Results.Created($"/api/shorturls/{created.Key}", created);
-    }
-    catch (Exception)
-    {
-        throw new Exception("Some error occured while attempting to create a short url");
-    }
+    string cleanUrl = urlReq.LongUrl.ToLower().Trim();
+    ShortUrlsModel created = shortUrlsService.CreateShortUrl(cleanUrl) ?? throw new Exception("Failed to create short url");
+    return Results.Created($"/api/shorturls/{created.Key}", created);
 });
 
 app.MapDelete("/api/shorturls/{key}", (string key, IShortUrlsService shortUrlsService) =>
@@ -97,24 +90,13 @@ app.MapDelete("/api/shorturls/{key}", (string key, IShortUrlsService shortUrlsSe
             detail: $"key {key} not found"
         );
     }
-    catch (Exception)
-    {
-        throw new Exception("Some error occured while attempting to delete records");
-    }
 });
 
 app.MapGet("/{shortUrl}", (string shortUrl, IShortUrlsService shortUrlsService) =>
 {
-    try
-    {
-        ShortUrlsModel urlObj = shortUrlsService.GetShortUrl(shortUrl);
-        return Results.Redirect(urlObj.LongUrl, true);
-    }
-    catch (Exception)
-    {
-        throw new Exception("Some error occured while attempting to redirect to url");
-    }
+    ShortUrlsModel urlObj = shortUrlsService.GetShortUrl(shortUrl);
+    return Results.Redirect(urlObj.LongUrl, true);
 });
+app.MapFallbackToFile("index.html");
 app.UseCors("AllowAll");
 app.Run();
-
