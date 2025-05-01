@@ -1,10 +1,12 @@
+using FullStackUrlShortener.Server.Features.CreateShortUrl;
+using FullStackUrlShortener.Server.Features.GetShortUrl;
 using FullStackUrlShortener.Server.Services.Redis;
-using FullStackUrlShortener.Server.Services.UrlShortener;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSingleton<IRedisService>(new RedisService(builder.Configuration.GetConnectionString("Redis")!));
-builder.Services.AddScoped<IShortenRepository, ShortenRepo>();
+builder.Services.AddScoped<IGetShortUrlHandler, GetShortUrlHandler>();
+builder.Services.AddScoped<ICreateShortUrlHandler, CreateShortUrlHandler>();
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();

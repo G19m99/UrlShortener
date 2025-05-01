@@ -1,5 +1,6 @@
+import { useMutation } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-import React, { useState } from "react";
+import React from "react";
 import Loader from "./Loader";
 
 type ShortenUrlFormProps = {
@@ -7,34 +8,34 @@ type ShortenUrlFormProps = {
 };
 
 const ShortenUrlForm = ({ setShortUrl }: ShortenUrlFormProps) => {
-  const [isLoading, setIsLoading] = useState(false);
   const baseUrl = "https://localhost:7164/";
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsLoading(true);
-
-    // get form data
-    const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData.entries());
-    try {
-      const response = await fetch(`${baseUrl}api/url-shorten`, {
+  const shortenMutation = useMutation({
+    mutationFn: async (longUrl: string) => {
+      return fetch(`${baseUrl}api/urls`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ url: data.longUrl }),
+        body: JSON.stringify({ url: longUrl }),
       });
+    },
+    onSuccess: async (data) => {
+      const res = await data.text();
+      setShortUrl(res);
+    },
+    onError: (error) => {
+      console.error("Error shortening URL:", error);
+      alert("Failed to shorten URL. Please try again.");
+    },
+  });
 
-      if (!response.ok) {
-        throw new Error(`Something went wrong ${response.statusText}`);
-      }
-      const result = await response.json();
-      setShortUrl(result.shortUrl);
-      setIsLoading(false);
-    } catch (error) {
-      console.error("Error submitting form:", error);
-    }
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+    const data = Object.fromEntries(formData.entries());
+    shortenMutation.mutate(data.longUrl as string);
   };
 
   return (
@@ -81,9 +82,9 @@ const ShortenUrlForm = ({ setShortUrl }: ShortenUrlFormProps) => {
         className="w-full bg-violet-600 hover:bg-violet-700 text-white font-medium py-2 px-4 rounded-lg transition-colors"
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
-        disabled={isLoading}
+        disabled={shortenMutation.isPending}
       >
-        {isLoading ? <Loader /> : "Shorten URL"}
+        {shortenMutation.isPending ? <Loader /> : "Shorten URL"}
       </motion.button>
     </form>
   );
