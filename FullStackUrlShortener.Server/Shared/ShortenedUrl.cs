@@ -1,4 +1,4 @@
-﻿namespace FullStackUrlShortener.Server.Models;
+﻿namespace FullStackUrlShortener.Server.Shared;
 
 public class ShortenedUrl
 {

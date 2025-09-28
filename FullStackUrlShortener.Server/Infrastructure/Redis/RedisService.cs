@@ -1,13 +1,12 @@
 ﻿using StackExchange.Redis;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
-namespace FullStackUrlShortener.Server.Services.Redis;
+namespace FullStackUrlShortener.Server.Infrastructure.Redis;
 
 public class RedisService : IRedisService
 {
-    private readonly ConfigurationOptions config = null;
-    private Lazy<IConnectionMultiplexer> _Connection = null;
+    private readonly ConfigurationOptions config;
+    private Lazy<IConnectionMultiplexer> _Connection;
 
     public RedisService(string connectionString)
     {
@@ -34,7 +33,7 @@ public class RedisService : IRedisService
         {
             return default;
         }
-        T rvDeserialized = JsonSerializer.Deserialize<T>(rv)!;
+        T rvDeserialized = JsonSerializer.Deserialize<T>(rv!)!;
         return rvDeserialized;
     }
 

@@ -1,4 +1,4 @@
-﻿using FullStackUrlShortener.Server.Services.Redis;
+﻿using FullStackUrlShortener.Server.Infrastructure.Redis;
 
 namespace FullStackUrlShortener.Server.Features.DeleteShortUrl;
 

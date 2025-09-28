@@ -1,6 +1,6 @@
 ﻿using StackExchange.Redis;
 
-namespace FullStackUrlShortener.Server.Services.Redis;
+namespace FullStackUrlShortener.Server.Infrastructure.Redis;
 
 public interface IRedisService
 {

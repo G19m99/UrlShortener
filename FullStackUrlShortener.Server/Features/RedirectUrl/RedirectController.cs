@@ -1,5 +1,5 @@
 ﻿using FullStackUrlShortener.Server.Features.GetShortUrl;
-using FullStackUrlShortener.Server.Models;
+using FullStackUrlShortener.Server.Shared;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FullStackUrlShortener.Server.Features.RedirectUrl;

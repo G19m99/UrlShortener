@@ -1,6 +1,6 @@
 using FullStackUrlShortener.Server.Features.CreateShortUrl;
 using FullStackUrlShortener.Server.Features.GetShortUrl;
-using FullStackUrlShortener.Server.Services.Redis;
+using FullStackUrlShortener.Server.Infrastructure.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 

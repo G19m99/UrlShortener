@@ -1,5 +1,5 @@
-﻿using FullStackUrlShortener.Server.Models;
-using FullStackUrlShortener.Server.Services.Redis;
+﻿using FullStackUrlShortener.Server.Infrastructure.Redis;
+using FullStackUrlShortener.Server.Shared;
 using System.Security.Cryptography;
 
 namespace FullStackUrlShortener.Server.Features.CreateShortUrl;
