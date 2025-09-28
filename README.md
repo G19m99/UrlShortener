@@ -5,9 +5,9 @@ A simple and easy to use URL shortening service
 ## Features
 
 - Simple intuitive UI
-- Extremely fast, thanks to Redis and Asp.Net 8
-- Idempotent posts: Return the same URL if it's already shortened
-- Re-hash on duplicate
+- Fast performance using Redis as the primary data store
+- Idempotent requests: existing URLs return the same shortened result
+- Re-hash on key collision
 
 ## Tech Stack
 
